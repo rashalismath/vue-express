@@ -1,4 +1,6 @@
   const User=require('../models/index').user;
+  const Jwt=require('jsonwebtoken');
+  const config=require('../config/config');
   
   module.exports={
     async register(req,res){
@@ -26,8 +28,14 @@
       })
       
       if(user){
+
+        const jwt=Jwt.sign(
+          { email:user.email  },config.jsonSecret, {expiresIn:60*60/24*7} );
+
         res.status(200).send(
-          user.toJSON()
+          {
+            jwt
+          }
         )
       }else{
         res.status(403).send({
