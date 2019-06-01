@@ -1,15 +1,23 @@
   const User=require('../models/index').user;
   const Jwt=require('jsonwebtoken');
   const config=require('../config/config');
+  const bcrypt=require('bcryptjs');
   
   module.exports={
-    async register(req,res){
+     register(req,res){
         try {
-          //user create returns a promise so we wait for it before go to res.send
-          const user=await User.create(req.body);
-          res.send(
-              user.toJSON()
-          )
+          bcrypt.hash(req.body.password,10,async (error,hash)=>{
+            if(error){
+              res.status(500).send(error.toJSON());
+            }else{
+              //user create returns a promise so we wait for it before go to res.send
+              const user=await User.create({email:req.body.email,password:hash});
+                res.send(
+                    user.toJSON()
+                )
+              }
+          })
+          
         } catch (error) {
           res.status(500)
             .send({
@@ -19,34 +27,44 @@
     },
 
     async login(req,res){
+
       const {email,password}=req.body;
       const user=await User.findOne({
         where:{
-          email:email,
-          password:password
-        }
+          email:email}
       })
-      
+
       if(user){
-
-        const jwt=Jwt.sign(
-          { email:user.email  },config.jsonSecret, {expiresIn:60*60/24*7} );
-
-        res.status(200).send(
-          {
-            jwt
+        bcrypt.compare(password,user.password,(error,result)=>{
+               
+          if(result){
+  
+            const jwt=Jwt.sign(
+              { email:user.email  },config.jsonSecret, {expiresIn:60*60/24*7} );
+  
+            res.status(200).send(
+              {
+                jwt
+              }
+            )
+          }else{
+            res.status(403).send({
+              Error:'Wrong Matches'
+            })
           }
-        )
+          console.log(req.body);
+  
+          if(error){
+            res.send(500).send(error.toJSON());
+          }
+  
+          });
       }else{
         res.status(403).send({
-          Error:'Wrong Matches'
+          Error:"Wrong matches"
         })
       }
-      console.log(req.body);
+
     }
-
-
-
-
 
   }

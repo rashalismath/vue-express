@@ -1,6 +1,6 @@
 <template>
    <div id="register" class='container mt-5'>
-        <form class="">
+        <form class="" autocomplete="false">
             <div class="form-group">
                 <label for="exampleInputEmail1">Email address</label>
                 <input  v-model="email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
