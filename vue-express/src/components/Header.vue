@@ -1,6 +1,6 @@
 <template>
    
-        <nav class="navbar navbar-expand-lg navbar-light bg-primary">
+        <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-primary">
             <router-link to="home">
                 <a class="navbar-brand text-white">Home</a>
             </router-link>
@@ -18,12 +18,22 @@
                 <ul class="mr-0 navbar-nav">
                     <li class="mr-2">
                         <router-link to="login">
+                            <a class="text-white">Browse</a>
+                        </router-link>
+                    </li>
+                    <li class="mr-2">
+                        <router-link to="login">
                             <a class="text-white">Sign-In</a>
                         </router-link>
                     </li>
-                    <li>
+                    <li class="mr-2">
                         <router-link to="register">
                             <a class="text-white">Sign-Up</a>
+                        </router-link>
+                    </li>
+                    <li class="mr-2">
+                        <router-link to="register">
+                            <a class="text-white">Log-out</a>
                         </router-link>
                     </li>
                 </ul>
@@ -31,3 +41,12 @@
         </nav>
     
 </template>
+<script>
+export default {
+    
+}
+</script>
+
+<style scoped>
+
+</style>

@@ -5,25 +5,22 @@
   
   module.exports={
      register(req,res){
-        try {
-          bcrypt.hash(req.body.password,10,async (error,hash)=>{
+          bcrypt.hash(req.body.password,10, (error,hash)=>{
             if(error){
               res.status(500).send(error.toJSON());
             }else{
               //user create returns a promise so we wait for it before go to res.send
-              const user=await User.create({email:req.body.email,password:hash});
-                res.send(
-                    user.toJSON()
-                )
-              }
+              User.create({email:req.body.email,password:hash})
+              .then((response)=>{
+                res.status(200).send(response)
+              })
+              .catch((e)=>{
+                res.status(500).send({'Error':e});
+              });
+            }
           })
           
-        } catch (error) {
-          res.status(500)
-            .send({
-              Error:error
-          })
-        }
+       
     },
 
     async login(req,res){
@@ -36,7 +33,7 @@
 
       if(user){
         bcrypt.compare(password,user.password,(error,result)=>{
-               
+              
           if(result){
   
             const jwt=Jwt.sign(
