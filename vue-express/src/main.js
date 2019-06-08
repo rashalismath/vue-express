@@ -3,6 +3,7 @@ import App from './App.vue'
 import VueRouter from 'vue-router'
 import Routes from './Routes/route'
 import vueResource from 'vue-resource';
+import {store} from './store/store';
 
 Vue.config.productionTip = false
 
@@ -18,5 +19,6 @@ const router=new VueRouter({
 
 new Vue({
   render: h => h(App),
-  router:router
+  router:router,
+  store:store
 }).$mount('#app')

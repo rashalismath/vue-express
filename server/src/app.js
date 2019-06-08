@@ -5,7 +5,7 @@ const cors=require('cors');
 const sequelize=require('./models/index').sync;
 const config=require('./config/config');
 const routes=require('./routes/route');
- 
+
 
 const app=express();
 app.use(morgan('combined'));

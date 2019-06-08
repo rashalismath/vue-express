@@ -38,6 +38,7 @@
                 password:this.password
             }).then((message)=>{
                    console.log(message);
+                    this.$store.dispatch('setUser',message)
                }).catch((e)=>{
                    console.log(e);
                })

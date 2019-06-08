@@ -38,6 +38,7 @@
                 password:this.password
             }).then((message)=>{
                    console.log(message);
+                      this.$store.dispatch('setToken',message.body.jwt);
                }).catch((e)=>{
                    console.log(e);
                })
